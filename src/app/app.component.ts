@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'tesla';
   public readonly exteriorButtonImages = [
     'stealth-grey',
     'pearl-white',
@@ -86,20 +86,20 @@ export class AppComponent {
 
   public performance = signal<string>('');
 
-  selectExteriorColor(button: string) {
+  public selectExteriorColor(button: string): void {
     this.exteriorImage.set(button);
   }
 
-  selectInteriorColor(button: string) {
+  public selectInteriorColor(button: string): void {
     this.interiorImage.set(button);
   }
 
-  onSelectWheelButton(button: { name: string; price: number }) {
+  public onSelectWheelButton(button: { name: string; price: number }): void {
     this.wheelButtonSelected.set(button);
     this.performance.set(button.price ? '-performance' : '');
   }
 
-  selectPerformanceUpgrade() {
+  public selectPerformanceUpgrade(): void {
     this.performanceUpgradeSelected.update((v) => !v);
   }
 }
