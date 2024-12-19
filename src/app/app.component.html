@@ -22,7 +22,9 @@
         class="h-96 bg-gray-200 flex items-center justify-center overflow-hidden mb-4"
       >
         <img
-          [src]="'assets/images/model-y-' + exteriorImage() + '.jpg'"
+          [src]="
+            'assets/images/model-y-' + exteriorImage() + performance() + '.jpg'
+          "
           alt="Model Y"
           class="max-w-full h-auto transform scale-125"
           id="exterior-image"

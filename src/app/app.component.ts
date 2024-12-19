@@ -84,6 +84,8 @@ export class AppComponent {
     );
   });
 
+  public performance = signal<string>('');
+
   selectExteriorColor(button: string) {
     this.exteriorImage.set(button);
   }
@@ -94,6 +96,7 @@ export class AppComponent {
 
   onSelectWheelButton(button: { name: string; price: number }) {
     this.wheelButtonSelected.set(button);
+    this.performance.set(button.price ? '-performance' : '');
   }
 
   selectPerformanceUpgrade() {
