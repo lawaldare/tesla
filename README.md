@@ -1,6 +1,8 @@
-# Tesla
+# Tesla Car Configurator UI (Angular v19)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+UI to customize a Tesla Model Y. Change the exterior, interior and wheels. Add different options and get pricing.
+
+<img src="assets/images/screen.jpg" />
 
 ## Development server
 
