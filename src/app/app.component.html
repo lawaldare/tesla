@@ -22,7 +22,7 @@
         class="h-96 bg-gray-200 flex items-center justify-center overflow-hidden mb-4"
       >
         <img
-          src="assets/images/model-y-stealth-grey.jpg"
+          [src]="'assets/images/model-y-' + exteriorImage() + '.jpg'"
           alt="Model Y"
           class="max-w-full h-auto transform scale-125"
           id="exterior-image"
@@ -34,7 +34,7 @@
         class="h-96 bg-gray-200 flex items-center justify-center overflow-hidden mb-4"
       >
         <img
-          src="assets/images/model-y-interior-dark.jpg"
+          [src]="'assets/images/model-y-interior-' + interiorImage() + '.jpg'"
           alt="Model Y Interior"
           class="max-w-full h-auto transform scale-125"
           id="interior-image"
@@ -52,50 +52,19 @@
     <div class="my-8" id="exterior-buttons">
       <h3 class="font-semibold mb-2">Exterior Color</h3>
       <div class="flex space-x-4">
+        @for(button of exteriorButtonImages; track button; let idx = $index){
         <button
-          class="btn-selected transition-transform duration-300 hover:scale-110"
+          class="transition-transform duration-300 hover:scale-110"
+          [class.btn-selected]="exteriorImage() === exteriorButtonImages[idx]"
+          (click)="selectExteriorColor(button)"
         >
           <img
-            src="assets/images/button-stealth-grey.avif"
+            [src]="'assets/images/button-' + button + '.avif'"
             alt="Stealth Grey"
             class="w-22"
           />
         </button>
-        <button class="transition-transform duration-300 hover:scale-110">
-          <img
-            src="assets/images/button-pearl-white.avif"
-            alt="Pearl White"
-            class="w-22"
-          />
-        </button>
-        <button class="transition-transform duration-300 hover:scale-110">
-          <img
-            src="assets/images/button-deep-blue-metallic.avif"
-            alt="Deep Blue"
-            class="w-22"
-          />
-        </button>
-        <button class="transition-transform duration-300 hover:scale-110">
-          <img
-            src="assets/images/button-solid-black.avif"
-            alt="Solid Black"
-            class="w-22"
-          />
-        </button>
-        <button class="transition-transform duration-300 hover:scale-110">
-          <img
-            src="assets/images/button-ultra-red.avif"
-            alt="Ultra Red"
-            class="w-22"
-          />
-        </button>
-        <button class="transition-transform duration-300 hover:scale-110">
-          <img
-            src="assets/images/button-quicksilver.avif"
-            alt="Quicksilver"
-            class="w-22"
-          />
-        </button>
+        }
       </div>
     </div>
 
@@ -103,30 +72,34 @@
     <div class="my-8" id="interior-buttons">
       <h3 class="font-semibold mb-2">Interior Color</h3>
       <div class="flex space-x-4">
+        @for(button of interiorButtonImages; track button; let idx = $index){
         <button
-          class="btn-selected transition-transform duration-300 hover:scale-110"
+          class="transition-transform duration-300 hover:scale-110"
+          [class.btn-selected]="interiorImage() === interiorButtonImages[idx]"
+          (click)="selectInteriorColor(button)"
         >
-          <img src="assets/images/button-dark.avif" alt="Dark" class="w-12" />
+          <img
+            [src]="'assets/images/button-' + button + '.avif'"
+            alt="Dark"
+            class="w-12"
+          />
         </button>
-        <button class="transition-transform duration-300 hover:scale-110">
-          <img src="assets/images/button-light.avif" alt="Light" class="w-12" />
-        </button>
+        }
       </div>
     </div>
 
     <!-- Wheel Buttons -->
     <div class="mb-8" id="wheel-buttons">
       <h3 class="font-semibold mb-2">Wheels</h3>
+      @for(w of wheelButtons; track w.name){
       <button
-        class="w-full py-4 mb-2 bg-gray-700 hover:bg-gray-600 hover:text-white text-white rounded-lg transition-colors duration-300"
+        class="w-full py-4 mb-2 bg-gray-200 hover:bg-gray-500 hover:text-white text-white rounded-lg transition-colors duration-300"
+        [class.bg-gray-700]="w.name === wheelButtonSelected().name"
+        (click)="onSelectWheelButton(w)"
       >
-        Standard Wheels
+        {{ w.name }}
       </button>
-      <button
-        class="w-full py-4 mb-2 bg-gray-200 hover:bg-gray-600 hover:text-white rounded-lg transition-colors duration-300"
-      >
-        Performance Wheels (+$2,500)
-      </button>
+      }
     </div>
 
     <!-- Full Self Driving Option -->
@@ -137,6 +110,7 @@
           type="checkbox"
           id="full-self-driving-checkbox"
           class="form-checkbox h-5 w-5 text-blue-600"
+          [(ngModel)]="fullSelfDrivingCost"
         />
         <span>Add Full Self-Driving for $8,500</span>
       </label>
@@ -146,8 +120,9 @@
     <div class="mb-8">
       <h3 class="font-semibold mb-2">Performance Package</h3>
       <button
-        id="performance-btn"
-        class="w-full py-4 bg-gray-200 hover:bg-gray-400 rounded-lg"
+        class="w-full py-4 mb-2 bg-gray-200 hover:bg-gray-500 hover:text-white text-white rounded-lg transition-colors duration-300"
+        [class.bg-gray-700]="performanceUpgradeSelected()"
+        (click)="selectPerformanceUpgrade()"
       >
         Performance Upgrade (+$5,000)
       </button>
@@ -162,7 +137,11 @@
         >
           <span>Center Console Trays</span>
           <span class="flex items-center space-x-2">
-            <input type="checkbox" class="accessory-form-checkbox h-5 w-5" />
+            <input
+              type="checkbox"
+              class="accessory-form-checkbox h-5 w-5"
+              [(ngModel)]="centerConsoleTrays"
+            />
             <span>$35</span>
           </span>
         </label>
@@ -171,7 +150,11 @@
         >
           <span>Sunshade</span>
           <span class="flex items-center space-x-2">
-            <input type="checkbox" class="accessory-form-checkbox h-5 w-5" />
+            <input
+              type="checkbox"
+              class="accessory-form-checkbox h-5 w-5"
+              [(ngModel)]="sunshade"
+            />
             <span>$105</span>
           </span>
         </label>
@@ -180,7 +163,11 @@
         >
           <span>All-Weather Interior Liners</span>
           <span class="flex items-center space-x-2">
-            <input type="checkbox" class="accessory-form-checkbox h-5 w-5" />
+            <input
+              type="checkbox"
+              class="accessory-form-checkbox h-5 w-5"
+              [(ngModel)]="allWeatherInteriorLiners"
+            />
             <span>$225</span>
           </span>
         </label>
@@ -190,7 +177,9 @@
     <!-- Total Price Section -->
     <div class="pt-4">
       <h3 class="font-semibold text-lg">Total Price</h3>
-      <p id="total-price" class="text-2xl font-bold">$52,490</p>
+      <p id="total-price" class="text-2xl font-bold">
+        {{ totalPrice() | currency }}
+      </p>
     </div>
 
     <!-- Payment Breakdown -->
@@ -199,13 +188,17 @@
       <div class="mt-4">
         <p>
           Down Payment:
-          <span id="down-payment" class="font-bold">$5000</span>
+          <span id="down-payment" class="font-bold">{{
+            downPayment() | currency
+          }}</span>
         </p>
         <p>Loan Term: <span class="font-bold">60 Months</span></p>
         <p>Interest Rate: <span class="font-bold">3% APR</span></p>
         <p>
           Estimated Monthly Payment:
-          <span id="monthly-payment" class="font-bold text-2xl">$818.65</span>
+          <span id="monthly-payment" class="font-bold text-2xl">{{
+            monthlyPayment() | currency
+          }}</span>
         </p>
       </div>
     </div>
