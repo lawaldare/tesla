@@ -1,6 +1,7 @@
 # Tesla Car Configurator UI (Angular v19)
 
-UI to customize a Tesla Model Y. Change the exterior, interior and wheels. Add different options and get pricing.
+UI to customize a Tesla Model Y. Change the exterior, interior and wheels. Add different options and get pricing. Deployed version can be viewed [here](https://tesla-configurator-angular.netlify.app/)
+:
 
 <img src="./src/assets/images/screen.jpg" />
 
